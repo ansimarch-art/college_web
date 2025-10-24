@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Calendar Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .calendar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .month {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 250px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 10px;
+    }
+    .month h3 {
+      text-align: center;
+      background: #007BFF;
+      color: white;
+      padding: 8px 0;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    th, td {
+      padding: 5px;
+    }
+    th {
+      background: #eaeaea;
+    }
+    td {
+      height: 25px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>JavaScript Calendar Generator</h2>
+<div class="calendar" id="calendar"></div>
+
+<script>
+  const year = parseInt(prompt("Enter a year:"), 10);
+  const calendarDiv = document.getElementById("calendar");
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  for (let month = 0; month < 12; month++) {
+    const monthDiv = document.createElement("div");
+    monthDiv.classList.add("month");
+    const monthName = document.createElement("h3");
+    monthName.textContent = `${months[month]} ${year}`;
+    monthDiv.appendChild(monthName);
+    const table = document.createElement("table");
+    let thead = "<tr>";
+    for (let day of days) {
+      thead += `<th>${day}</th>`;
+    }
+    thead += "</tr>";
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let date = 1;
+    let rows = "";
+    for (let i = 0; i < 6; i++) {
+      let row = "<tr>";
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && j < firstDay) {
+          row += "<td></td>";
+        } else if (date > daysInMonth) {
+          row += "<td></td>";
+        } else {
+          row += `<td>${date}</td>`;
+          date++;
+        }
+      }
+      row += "</tr>";
+      rows += row;
+      if (date > daysInMonth) break;
+    }
+    table.innerHTML = thead + rows;
+    monthDiv.appendChild(table);
+    calendarDiv.appendChild(monthDiv);
+  }
+</script>
+
+</body>
+</html>

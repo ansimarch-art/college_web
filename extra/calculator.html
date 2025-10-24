@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Calendar</title>
+</head>
+<body>
+  <h2>Simple Calendar</h2>
+  <label>Year: <input type="number" id="year"></label>
+  <label>Month (1-12): <input type="number" id="month"></label>
+  <button onclick="showCalendar()">Show Calendar</button>
+
+  <pre id="calendarOutput"></pre>
+
+  <script>
+    function showCalendar() {
+      const year = parseInt(document.getElementById('year').value);
+      const month = parseInt(document.getElementById('month').value) - 1; // JS months are 0-indexed
+      const output = document.getElementById('calendarOutput');
+
+      if (isNaN(year) || isNaN(month) || month < 0 || month > 11) {
+        output.textContent = "Please enter a valid year and month (1-12).";
+        return;
+      }
+
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const firstDay = new Date(year, month, 1).getDay();
+      const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+      let calendar = weekdays.join(" ") + "\n";
+      calendar += "    ".repeat(firstDay); // space before first day
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        calendar += day.toString().padStart(3, " ") + " ";
+        if ((firstDay + day) % 7 === 0) calendar += "\n"; // new line after Saturday
+      }
+
+      output.textContent = calendar;
+    }
+  </script>
+</body>
+</html>
